@@ -45,7 +45,7 @@ RUN ctm env add endpoint https://$CTMHOST:8443/automation-api $USER $PASSWORD \
 
 # provision controlm agent image
 RUN cd \
-        && ctm provision image Agent_20_100.Linux
+        && ctm provision image Agent_20_200.Linux
 
 # enable controlm agent utilities
 RUN echo "source /home/controlm/.bash_profile" >> /home/controlm/.bashrc
