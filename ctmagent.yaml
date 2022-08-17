@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controlm-agent-deployment
+  labels:
+    app: controlm-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: controlm-agent
+  template:
+    metadata:
+      labels:
+        app: controlm-agent
+    spec:
+      hostAliases:
+      - ip: 10.102.44.149
+        hostnames:
+        - ctm20lnfull
+      containers:
+      - name: controlm-agent
+        image: bufftio/ctm:9.20.100-fix5
+        imagePullPolicy: IfNotPresent
+        #lifecycle:
+                #postStart:
+                  #exec:
+                    #command:
+                      #- "echo"
+                  #- "10.102.44.149"
+                  #- "CTM20LNFULL"
+                  #- ">>"
+                  # - "/etc/hosts"
+        env:
+        - name: CTM_SERVER
+          value: "CTM20LNFULL"
+        - name: CTM_HOSTGROUP
+          value: "CTMHOSTGROUP1"
+        - name: CTM_AGENT_PORT
+          value: "7006"
+        - name: "ALIAS"
+          value: "k8sctmagent-aws"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ctmagent-port
+  labels:
+    app: controlm-agent
+spec:
+  type: NodePort
+  ports:
+    - port: 7006
+      nodePort: 32706
+      name: ctm-agent
+  selector:
+    app: controlm-agent
