@@ -22,15 +22,6 @@ spec:
       - name: controlm-agent
         image: bufftio/ctm:9.20.100-fix5
         imagePullPolicy: IfNotPresent
-        #lifecycle:
-                #postStart:
-                  #exec:
-                    #command:
-                      #- "echo"
-                  #- "10.102.44.149"
-                  #- "CTM20LNFULL"
-                  #- ">>"
-                  # - "/etc/hosts"
         env:
         - name: CTM_SERVER
           value: "CTM20LNFULL"
